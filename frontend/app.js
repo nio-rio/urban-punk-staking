@@ -189,7 +189,7 @@ async function renderNfts() {
       const res = await fetch('/.netlify/functions/get-nfts?owner=' + encodeURIComponent(account));
       const data = await res.json();
       if (res.ok && Array.isArray(data.owned)) {
-        ownedIds = data.owned;
+        ownedIds = data.owned.sort((a, b) => a - b);
         enumerable = true;
       }
     } catch {}
