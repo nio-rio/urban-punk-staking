@@ -54,27 +54,6 @@
     @media (max-width: 480px) {
       .punk-character { height: 32vh; max-height: 280px; }
     }
-    .flying-punk {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 34vh;
-      max-height: 360px;
-      width: auto;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.92;
-      transform: rotate(15deg);
-      filter: drop-shadow(0 0 12px rgba(232, 96, 240, 0.4)) drop-shadow(0 8px 22px rgba(0, 0, 0, 0.5));
-      animation: fly-bob 6s ease-in-out infinite;
-    }
-    @keyframes fly-bob {
-      0%, 100% { transform: rotate(15deg) translateY(0); }
-      50% { transform: rotate(13deg) translateY(-12px); }
-    }
-    @media (max-width: 480px) {
-      .flying-punk { height: 26vh; max-height: 260px; left: 0; }
-    }
     .music-wrap {
       position: fixed;
       left: 18px;
@@ -390,7 +369,6 @@
 <body>
   <div class="punk-bg" aria-hidden="true"></div>
   <img src="./punk-character.png" class="punk-character" alt="" aria-hidden="true" />
-  <img src="./flying-punk.png" class="flying-punk" alt="" aria-hidden="true" />
   <div class="music-wrap">
     <button id="music-toggle" class="music-btn" aria-label="Play music"><img src="./music.png" alt="" /></button>
     <span class="music-label" id="music-label">Off</span>
