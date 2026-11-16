@@ -56,8 +56,8 @@
     }
     .flying-punk {
       position: fixed;
-      top: -4vh;
-      left: -7vw;
+      top: 0;
+      left: 0;
       height: 34vh;
       max-height: 360px;
       width: auto;
@@ -73,7 +73,7 @@
       50% { transform: rotate(13deg) translateY(-12px); }
     }
     @media (max-width: 480px) {
-      .flying-punk { height: 26vh; max-height: 260px; left: -12vw; }
+      .flying-punk { height: 26vh; max-height: 260px; left: 0; }
     }
     .music-wrap {
       position: fixed;
@@ -193,14 +193,6 @@
         0 0 16px rgba(232, 96, 240, 0.65),
         0 0 34px rgba(232, 96, 240, 0.45),
         0 0 70px rgba(232, 96, 240, 0.35);
-    }
-    .dpf .dpf-g {
-      color: var(--acid);
-      text-shadow:
-        0 0 6px rgba(168, 255, 0, 0.95),
-        0 0 16px rgba(168, 255, 0, 0.7),
-        0 0 34px rgba(168, 255, 0, 0.5),
-        0 0 70px rgba(168, 255, 0, 0.4);
     }
 
     /* ---- marquee of actual punks ---- */
@@ -414,7 +406,7 @@
         </div>
         <p class="sub">Stake Urban Punk NFTs → earn SOHO · 10 SOHO per NFT per day</p>
         <p class="tagline">They are late. They are uninvited. They crashed the party.</p>
-        <div class="dpf">Decentralized Punkin<span class="dpf-g">g</span> Finance</div>
+        <div class="dpf">Decentralized Punkin Finance</div>
       </div>
       <button id="connect">Connect Wallet</button>
     </header>
