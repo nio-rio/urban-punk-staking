@@ -1,0 +1,8 @@
+{
+  "network": "mainnet",
+  "upo": "0x3bf0d09463f3ab326eb213f653325896a8c2cba4",
+  "soho": "0xD6Fd077A7fBEfd67127B2CaD7F37e235Db6Ef752",
+  "staking": "0xa358865C0ee106309F02279313925549d227bc52",
+  "ratePerDay": "10.0",
+  "deployer": "0xC6D1c9603757006A57F211E0C6c6Ab8c57D35835"
+}

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Urban Punk — Staking</title>
+  <link rel="icon" type="image/svg+xml" href="./pill.svg" />
+  <link rel="apple-touch-icon" href="./pill.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000000;
+      --panel: #0d0d0d;
+      --line: #2a2a2a;
+      --ink: #ffffff;
+      --muted: #b3b3b3;
+      --acid: #a8ff00;
+      --purple: #e860f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 44px 20px 96px; position: relative; z-index: 1; }
+    .punk-bg {
+      position: fixed;
+      inset: 0;
+      background: url("./punk-poster.jpg") center / cover no-repeat;
+      opacity: 0.25;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .punk-character {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      height: 40vh;
+      max-height: 400px;
+      width: auto;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 14px rgba(168, 255, 0, 0.45)) drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
+    }
+    @media (max-width: 480px) {
+      .punk-character { height: 32vh; max-height: 280px; }
+    }
+    .music-wrap {
+      position: fixed;
+      left: 18px;
+      bottom: 24px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .music-btn {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #f2a4f2 0%, #e860f0 40%, #c63ad9 100%);
+      box-shadow:
+        inset 0 2px 3px rgba(255, 255, 255, 0.5),
+        inset 0 -4px 8px rgba(80, 0, 90, 0.4),
+        0 5px 14px rgba(0, 0, 0, 0.55);
+      transform: rotate(-12deg);
+      transition: transform 0.15s ease;
+    }
+    .music-btn::before {
+      content: '';
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      top: 50%;
+      height: 2px;
+      background: rgba(90, 0, 100, 0.35);
+      border-radius: 1px;
+      transform: translateY(-50%);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    .music-btn:hover { transform: rotate(-12deg) scale(1.1); }
+    .music-btn img {
+      width: 26px;
+      height: 26px;
+      display: block;
+      filter: invert(1) drop-shadow(0 1px 1px rgba(255, 255, 255, 0.4));
+      opacity: 0.9;
+    }
+    .music-btn.playing { animation: pill-pulse 1.4s ease-in-out infinite; }
+    .music-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .music-label.on { color: #e860f0; text-shadow: 0 0 8px rgba(232, 96, 240, 0.6); }
+    @keyframes pill-pulse {
+      0%, 100% {
+        box-shadow:
+          inset 0 2px 3px rgba(255, 255, 255, 0.5),
+          inset 0 -4px 8px rgba(80, 0, 90, 0.4),
+          0 5px 14px rgba(0, 0, 0, 0.55),
+          0 0 12px rgba(232, 96, 240, 0.5);
+      }
+      50% {
+        box-shadow:
+          inset 0 2px 3px rgba(255, 255, 255, 0.5),
+          inset 0 -4px 8px rgba(80, 0, 90, 0.4),
+          0 5px 14px rgba(0, 0, 0, 0.55),
+          0 0 30px rgba(232, 96, 240, 0.95);
+      }
+    }
+
+    /* ---- header ---- */
+    header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .brand-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .brand { font-size: 40px; font-weight: 900; letter-spacing: -0.02em; line-height: 0.95; text-transform: uppercase; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9); }
+    .brand a { color: var(--ink); text-decoration: none; }
+    .brand a:hover { opacity: 0.85; }
+    .brand .acid { color: var(--acid); }
+    .badge {
+      display: inline-block;
+      background: var(--acid);
+      color: #000;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      transform: rotate(-5deg);
+      border-radius: 3px;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .badge-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid #3a3a3a;
+      box-shadow: none;
+    }
+    .badge-purple {
+      background: var(--purple);
+    }
+    .sub { color: #d8d8d8; font-size: 15px; margin: 10px 0 0; letter-spacing: 0.02em; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9); }
+    .tagline { color: var(--purple); font-size: 13px; margin-top: 4px; font-style: italic; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9); }
+
+    /* ---- marquee of actual punks ---- */
+    .marquee {
+      overflow: hidden;
+      margin-top: 26px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      background: rgba(5, 5, 5, 0.6);
+    }
+    .marquee-inner { display: flex; gap: 12px; width: max-content; animation: scroll 28s linear infinite; }
+    .marquee:hover .marquee-inner { animation-play-state: paused; }
+    .marquee img {
+      width: 96px; height: 96px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      filter: grayscale(20%) contrast(1.05);
+    }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ---- hazard stripe ---- */
+    .hazard {
+      height: 9px;
+      margin-top: 22px;
+      background: repeating-linear-gradient(45deg, var(--acid) 0 12px, #000 12px 24px);
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
+    .how {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 18px 2px 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .how span { font-weight: 800; color: var(--ink); text-transform: uppercase; letter-spacing: 0.02em; }
+    .how .sep { color: var(--acid); font-weight: 900; font-style: normal; }
+
+    /* ---- controls ---- */
+    button {
+      font: inherit;
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      background: var(--acid);
+      color: #000;
+      padding: 12px 18px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    button:hover:not(:disabled) { filter: brightness(1.1); }
+    button:disabled { opacity: 0.45; cursor: default; }
+    button.ghost {
+      background: transparent;
+      border: 1px solid #3a3a3a;
+      color: var(--ink);
+    }
+    button.ghost:hover:not(:disabled) { border-color: var(--acid); color: var(--acid); }
+
+    /* ---- cards ---- */
+    .card {
+      background: rgba(13, 13, 13, 0.92);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 22px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .card-title {
+      margin: 0 0 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-weight: 900;
+      font-size: 15px;
+    }
+    .card-title .acid { color: var(--acid); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 16px; }
+    .stat .k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .stat .v { font-size: 24px; font-weight: 900; margin-top: 4px; }
+    .stat .u { color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); margin-right: 5px; vertical-align: middle; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    input {
+      font: inherit;
+      background: #0a0a0a;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      padding: 10px 12px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    /* ---- nft grid ---- */
+    #nfts { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; margin-top: 12px; }
+    .nft {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(10, 10, 10, 0.85);
+      transition: transform 0.12s ease, border-color 0.12s ease;
+    }
+    .nft:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.25); }
+    .nft.sel { border-color: var(--purple); background: rgba(232, 96, 240, 0.14); }
+    .nft.staked { border-color: rgba(168, 255, 0, 0.35); }
+    .nft.staked .st { color: var(--acid); font-weight: 800; }
+    .nft .id { font-weight: 900; }
+    .nft .st { font-size: 11px; color: var(--muted); }
+    .msg { margin-top: 10px; font-size: 14px; color: var(--muted); min-height: 20px; }
+    .msg.ok { color: var(--ink); }
+    .msg.err { color: #ff4d5e; }
+    .note { color: var(--muted); font-size: 13px; }
+    code { background: #1a1a1a; padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+    a { color: var(--ink); }
+    .footer { margin-top: 32px; text-align: center; }
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { color: var(--acid); }
+    .opensea-link { display: inline-flex; align-items: center; vertical-align: middle; opacity: 0.8; }
+    .opensea-link:hover { opacity: 1; }
+    .opensea-logo { height: 16px; width: auto; display: block; }
+    .footer-sep { margin: 0 10px; color: var(--muted); }
+    .x-link { display: inline-flex; align-items: center; vertical-align: middle; opacity: 0.8; color: #fff; }
+    .x-link:hover { opacity: 1; }
+    .x-logo { height: 15px; width: auto; display: block; }
+    .opensea-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--ink);
+      background: #0a0a0a;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .opensea-btn:hover { border-color: var(--ink); }
+    .opensea-btn .buy-label { color: var(--muted); font-weight: 700; }
+    .opensea-btn img { height: 18px; width: auto; display: block; }
+    .calc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .calc-cell { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 12px; text-align: center; }
+    .calc-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .calc-val { font-size: 18px; font-weight: 900; margin-top: 2px; color: var(--acid); }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .metric { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 14px; }
+    .m-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .m-val { font-size: 20px; font-weight: 900; margin-top: 4px; }
+    .m-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .supply-bar { height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 3px; margin-top: 14px; overflow: hidden; }
+    .supply-fill { height: 100%; background: var(--acid); border-radius: 3px; transition: width 0.5s ease; }
+    .earn { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+    .earn-step { display: flex; gap: 12px; align-items: flex-start; }
+    .earn-n { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: var(--acid); color: #000; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .earn-body { font-size: 14px; line-height: 1.5; }
+    .earn-body b { color: var(--acid); }
+    .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 16px 0 14px; }
+    .hs { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 14px; text-align: center; }
+    .hs-v { font-size: 22px; font-weight: 900; }
+    .hs-k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+    .sec-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sec-list li { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+    .sec-list a { color: var(--acid); text-decoration: none; }
+    .sec-list a:hover { text-decoration: underline; }
+    .sec-list b { color: var(--muted); font-weight: 700; margin-right: 10px; }
+    .wallet-modal { position: fixed; inset: 0; z-index: 100; display: none; }
+    .wallet-modal.open { display: block; }
+    .wallet-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+    .wallet-panel { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0d0d0d; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px; padding: 22px; width: 92%; max-width: 400px; }
+    .wallet-head { display: flex; justify-content: space-between; align-items: center; }
+    .wallet-head h3 { margin: 0; text-transform: uppercase; letter-spacing: 0.03em; font-size: 16px; }
+    .wallet-close { background: transparent; color: var(--muted); border: none; font-size: 24px; line-height: 1; cursor: pointer; padding: 0 4px; }
+    .wallet-close:hover { color: var(--ink); }
+    .wallet-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .wallet-item { display: flex; align-items: center; gap: 12px; width: 100%; background: #0a0a0a; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 11px 14px; color: var(--ink); text-transform: none; font-size: 15px; font-weight: 700; letter-spacing: 0; text-align: left; }
+    .wallet-item:hover:not(:disabled) { filter: none; border-color: var(--acid); }
+    .wallet-item img { height: 28px; width: 28px; object-fit: contain; background: #fff; border-radius: 6px; padding: 4px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <div class="punk-bg" aria-hidden="true"></div>
+  <img src="./punk-character.png" class="punk-character" alt="" aria-hidden="true" />
+  <div class="music-wrap">
+    <button id="music-toggle" class="music-btn" aria-label="Play music"><img src="./music.png" alt="" /></button>
+    <span class="music-label" id="music-label">Off</span>
+  </div>
+  <audio id="bg-music" src="./music.mp3" loop preload="auto"></audio>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="brand-row">
+          <div class="brand"><a href="https://urbanpunk.xyz" target="_blank" rel="noopener">Urban <span class="acid">Punk</span></a></div>
+          <span class="badge">Staking</span>
+          <span class="badge badge-purple">Mainnet</span>
+        </div>
+        <p class="sub">Stake Urban Punk NFTs → earn SOHO · 10 SOHO per NFT per day</p>
+        <p class="tagline">They are late. They are uninvited. They crashed the party.</p>
+      </div>
+      <button id="connect">Connect Wallet</button>
+    </header>
+
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-v" id="hs-staked">—</div><div class="hs-k">Punks staked</div></div>
+      <div class="hs"><div class="hs-v" id="hs-pool">—</div><div class="hs-k">SOHO in pool</div></div>
+      <div class="hs"><div class="hs-v" id="hs-rate">10</div><div class="hs-k">SOHO / punk / day</div></div>
+      <div class="hs"><div class="hs-v" id="hs-minted">—</div><div class="hs-k">SOHO minted</div></div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-inner">
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-03.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-05.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-07.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-10.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-14.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-19.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-24.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-28.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-35.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-44.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-56.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-71.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-03.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-05.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-07.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-10.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-14.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-19.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-24.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-28.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-35.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-44.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-56.png" alt="" />
+        <img src="https://urbanpunk.xyz/media/img/urban-punk-71.png" alt="" />
+      </div>
+    </div>
+
+    <div class="hazard"></div>
+
+    <div class="card">
+      <div class="stats">
+        <div class="stat"><div class="k">NFTs Staked</div><div class="v" id="staked">0</div><div class="u">Urban Punks</div></div>
+        <div class="stat"><div class="k">SOHO Earned</div><div class="v" id="pending">0 SOHO</div><div class="u"><span class="live-dot"></span>unclaimed · live</div></div>
+        <div class="stat"><div class="k">Reward Rate</div><div class="v" id="rate">—</div><div class="u">per NFT / day</div></div>
+      </div>
+      <div class="row" style="margin-top:14px;">
+        <span class="note">Wallet <span id="addr">—</span> · SOHO balance: <span id="soho">0</span></span>
+      </div>
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">$SOHO <span class="acid">Tokenomics</span></h3>
+      <div class="metrics">
+        <div class="metric"><div class="m-label">Max Supply</div><div class="m-val" id="m-cap">50,000,000 SOHO</div><div class="m-sub">hard-capped</div></div>
+        <div class="metric"><div class="m-label">Minted</div><div class="m-val" id="m-supply">—</div><div class="m-sub" id="m-supply-pct">—</div></div>
+        <div class="metric"><div class="m-label">Reward Pool</div><div class="m-val" id="m-pool">—</div><div class="m-sub">SOHO remaining</div></div>
+        <div class="metric"><div class="m-label">Daily Emission</div><div class="m-val" id="m-emission">—</div><div class="m-sub">SOHO / day</div></div>
+      </div>
+      <div class="supply-bar"><div class="supply-fill" id="supply-fill" style="width:0%"></div></div>
+      <p class="note" style="margin-top:10px;">10 SOHO per punk per day · Contract <a href="https://etherscan.io/address/0xD6Fd077A7fBEfd67127B2CaD7F37e235Db6Ef752" target="_blank" rel="noopener">0xD6Fd…F752</a></p>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">How You Get <span class="acid">Paid</span></h3>
+      <div class="earn">
+        <div class="earn-step"><span class="earn-n">1</span><div class="earn-body"><b>Stake.</b> Throw your punk in the pit — the clock starts now.</div></div>
+        <div class="earn-step"><span class="earn-n">2</span><div class="earn-body"><b>Earn.</b> 10 SOHO per punk, every single day. No suits. No paperwork.</div></div>
+        <div class="earn-step"><span class="earn-n">3</span><div class="earn-body"><b>Claim.</b> Grab your bag whenever you want. It was always yours.</div></div>
+      </div>
+      <p class="note" style="margin-top:14px;">Your punks don't sleep. Neither does the yield.</p>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Your Urban <span class="acid">Punks</span></h3>
+      <p class="note" id="nft-count" style="margin: 4px 0 6px;">Connect your wallet to see your punks.</p>
+
+      <div class="row" style="margin-top:8px;">
+        <button id="stake-all">Stake all</button>
+        <button id="unstake-all" class="ghost">Unstake all</button>
+      </div>
+
+      <p class="note" id="nft-status" style="margin-top:12px;">Connect your wallet to load your NFTs.</p>
+      <div id="nfts"></div>
+      <div class="row" style="margin-top:14px;">
+        <button id="stake">Stake selected</button>
+        <button id="unstake" class="ghost">Unstake selected</button>
+      </div>
+      <div class="row" style="margin-top:16px; padding-top:16px; border-top: 1px solid var(--line);">
+        <span class="note">Don't own any punks?</span>
+        <a href="https://opensea.io/collection/urban-punk-official" target="_blank" rel="noopener" class="opensea-btn" title="Buy Urban Punks on OpenSea">
+          <span class="buy-label">Buy on</span>
+          <img src="./opensea.svg" alt="OpenSea" />
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button id="claim">Claim SOHO rewards</button>
+        <span class="note">Rewards accrue continuously; claim anytime.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Rewards <span class="acid">Calculator</span></h3>
+      <div class="row" style="margin-top:10px;">
+        <input id="calc-nfts" type="number" min="0" value="1" inputmode="numeric" style="max-width: 140px;" />
+        <span class="note">NFTs staked</span>
+      </div>
+      <div class="calc-grid" style="margin-top:12px;">
+        <div class="calc-cell"><div class="calc-label">Daily</div><div class="calc-val" id="calc-day">10 SOHO</div></div>
+        <div class="calc-cell"><div class="calc-label">Weekly</div><div class="calc-val" id="calc-week">70 SOHO</div></div>
+        <div class="calc-cell"><div class="calc-label">Monthly</div><div class="calc-val" id="calc-month">300 SOHO</div></div>
+      </div>
+      <p class="note" style="margin-top:10px;">At <span id="calc-rate">10</span> SOHO per NFT per day.</p>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Security <span class="acid">Checklist</span></h3>
+      <p class="note">Scammers clone staking pages to steal NFTs. Before you stake, confirm these on-chain addresses match:</p>
+      <ul class="sec-list">
+        <li><b>Staking</b><a href="https://etherscan.io/address/0xa358865C0ee106309F02279313925549d227bc52" target="_blank" rel="noopener">0xa358…bc52</a></li>
+        <li><b>SOHO</b><a href="https://etherscan.io/address/0xD6Fd077A7fBEfd67127B2CaD7F37e235Db6Ef752" target="_blank" rel="noopener">0xD6Fd…F752</a></li>
+        <li><b>Urban Punk</b><a href="https://etherscan.io/address/0x3bf0d09463f3ab326eb213f653325896a8c2cba4" target="_blank" rel="noopener">0x3bf0…cba4</a></li>
+      </ul>
+      <p class="note" style="margin-top:10px;">🔒 We will never DM you, never ask for your seed phrase, and never link you to another site. Only approve the staking contract above — you can revoke approval anytime in your wallet.</p>
+    </div>
+
+    <p class="note" style="margin-top:20px;">
+      Staking is custodial — staked NFTs move into the staking contract until you unstake them.
+    </p>
+
+    <p class="footer note">
+      <a href="https://urbanpunk.xyz" target="_blank" rel="noopener">urbanpunk.xyz</a>
+      <span class="footer-sep">·</span>
+      <a href="https://opensea.io/collection/urban-punk-official" target="_blank" rel="noopener" class="opensea-link" title="View Urban Punk Official on OpenSea">
+        <img src="./opensea.svg" alt="OpenSea" class="opensea-logo" />
+      </a>
+      <span class="footer-sep">·</span>
+      <a href="https://x.com/urbanpunknft" target="_blank" rel="noopener" class="x-link" title="Urban Punk on X">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="x-logo" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+      </a>
+    </p>
+  </div>
+
+  <div class="wallet-modal" id="wallet-modal" aria-hidden="true">
+    <div class="wallet-backdrop" id="wallet-backdrop"></div>
+    <div class="wallet-panel">
+      <div class="wallet-head">
+        <h3>Connect Wallet</h3>
+        <button class="wallet-close" id="wallet-close" aria-label="Close">×</button>
+      </div>
+      <div class="wallet-list">
+        <button class="wallet-item" data-wallet="metamask"><img src="./wallets/metamask.svg" alt="" /><span>MetaMask</span></button>
+        <button class="wallet-item" data-wallet="coinbase"><img src="./wallets/coinbase.svg" alt="" /><span>Coinbase Wallet</span></button>
+        <button class="wallet-item" data-wallet="walletconnect"><img src="./wallets/walletconnect.svg" alt="" /><span>WalletConnect</span></button>
+        <button class="wallet-item" data-wallet="rabby"><img src="./wallets/rabby.svg" alt="" /><span>Rabby</span></button>
+        <button class="wallet-item" data-wallet="trustwallet"><img src="./wallets/trustwallet.svg" alt="" /><span>Trust Wallet</span></button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+  <script>
+    // Music player — standalone (independent of the app module, so it works even if app.js fails to load).
+    (function () {
+      var music = document.getElementById('bg-music');
+      var btn = document.getElementById('music-toggle');
+      var label = document.getElementById('music-label');
+      var msg = document.getElementById('msg');
+      if (!music || !btn) return;
+      music.loop = true;
+      music.volume = 1;
+      function setOn() {
+        btn.classList.add('playing');
+        if (label) { label.textContent = 'On'; label.classList.add('on'); }
+      }
+      function setOff() {
+        btn.classList.remove('playing');
+        if (label) { label.textContent = 'Off'; label.classList.remove('on'); }
+      }
+      function showError(e) {
+        if (msg) { msg.textContent = 'Music blocked: ' + (e && (e.name || e.message) || e); msg.className = 'msg err'; }
+        setOff();
+      }
+      btn.addEventListener('click', function () {
+        if (music.paused) {
+          var p = music.play();
+          if (p && p.then) {
+            p.then(setOn).catch(showError);
+          } else {
+            setOn();
+          }
+        } else {
+          music.pause();
+          setOff();
+        }
+      });
+      music.addEventListener('error', function () { showError('file failed to load'); });
+    })();
+  </script>
+</body>
+</html>

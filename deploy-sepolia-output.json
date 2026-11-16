@@ -1,0 +1,15 @@
+{
+  "mockNft": "0x03961b9Ed0F9b2f34f5a6f363A0A5cc442423B5b",
+  "soho": "0x841ad1369C130B6C952C95de78B192BA2Ae488AC",
+  "staking": "0xba57b309Dc5BEb0270C70ae768D31bB8a476aAE1",
+  "ratePerDay": "10.0",
+  "deployer": "0xC6D1c9603757006A57F211E0C6c6Ab8c57D35835",
+  "nftIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "poolSoho": "1000000.0"
+}

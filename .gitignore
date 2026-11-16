@@ -1,0 +1,14 @@
+node_modules/
+artifacts/
+cache/
+coverage/
+coverage.json
+typechain-types/
+.env
+.env.*
+
+# Local Netlify folder
+.netlify
+
+# Generated flatten files (recreate with `npx hardhat flatten`)
+flattened-*.sol
