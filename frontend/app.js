@@ -42,6 +42,7 @@ let soho = null;
 let staking = null;
 let ownedIds = [];
 let stakedIds = [];
+let nftFilter = 'all';
 let ratePerDayNum = 10;
 
 function setMsg(text, cls = '') {
@@ -225,13 +226,12 @@ async function renderNfts() {
   ];
   if (all.length === 0) {
     $('nft-status').textContent = 'No Urban Punk NFTs (owned or staked) in this wallet.';
+    $('nft-filter').style.display = 'none';
     return;
   }
 
-  // Cap the tile grid for large wallets; bulk actions handle the rest.
-  const MAX_TILES = 30;
-  const shown = all.slice(0, MAX_TILES);
-  for (const { id, staked } of shown) {
+  // Render every punk as a clickable tile (scrollable grid + filter above).
+  for (const { id, staked } of all) {
     const div = document.createElement('div');
     div.className = 'nft' + (staked ? ' staked' : '');
     div.dataset.id = id;
@@ -243,13 +243,9 @@ async function renderNfts() {
     });
     wrap.appendChild(div);
   }
-  if (all.length > MAX_TILES) {
-    const note = document.createElement('p');
-    note.className = 'note';
-    note.style.margin = '10px 0 0';
-    note.textContent = `… and ${all.length - MAX_TILES} more — use "Stake all" / "Unstake all" above.`;
-    wrap.appendChild(note);
-  }
+
+  $('nft-filter').style.display = '';
+  applyNftFilter();
   updateButtons();
 }
 
@@ -270,6 +266,17 @@ function updateButtons() {
   const hasStaked = sel.some((d) => d.dataset.staked === '1');
   $('stake').classList.toggle('ghost', !hasInWallet);
   $('unstake').classList.toggle('ghost', !hasStaked);
+}
+
+function applyNftFilter() {
+  document.querySelectorAll('.nft').forEach((d) => {
+    const staked = d.dataset.staked === '1';
+    const show = nftFilter === 'all' || (nftFilter === 'wallet' && !staked) || (nftFilter === 'staked' && staked);
+    d.classList.toggle('hidden', !show);
+  });
+  document.querySelectorAll('.filter-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.filter === nftFilter);
+  });
 }
 
 async function ensureApproved() {
@@ -437,6 +444,12 @@ $('unstake').addEventListener('click', unstake);
 $('claim').addEventListener('click', claim);
 $('stake-all').addEventListener('click', stakeAll);
 $('unstake-all').addEventListener('click', unstakeAll);
+$('nft-filter').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  nftFilter = btn.dataset.filter;
+  applyNftFilter();
+});
 $('calc-nfts').addEventListener('input', updateCalc);
 updateCalc();
 
