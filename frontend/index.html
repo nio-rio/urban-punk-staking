@@ -311,6 +311,11 @@
     .msg.err { color: #ff4d5e; }
     .note { color: var(--muted); font-size: 13px; }
     code { background: #1a1a1a; padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+    .contracts { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); text-align: left; }
+    .contracts-title { font-weight: 900; font-size: 13px; letter-spacing: 0.4px; margin-bottom: 8px; }
+    .contract-row { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 5px 0; }
+    .contract-name { color: var(--muted); font-size: 12px; min-width: 110px; flex: 0 0 auto; }
+    .contract-note { color: var(--muted); font-size: 12px; margin-top: 8px; }
     a { color: var(--ink); }
     .footer { margin-top: 32px; text-align: center; }
     .footer a { color: var(--muted); text-decoration: none; }
@@ -551,6 +556,14 @@
         <svg viewBox="0 0 24 24" fill="currentColor" class="x-logo" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
       </a>
     </p>
+
+    <div class="contracts">
+      <div class="contracts-title">Contract Addresses</div>
+      <div class="contract-row"><span class="contract-name">$SOHO token</span><code>0xD6Fd077A7fBEfd67127B2CaD7F37e235Db6Ef752</code></div>
+      <div class="contract-row"><span class="contract-name">Staking</span><code>0xa358865C0ee106309F02279313925549d227bc52</code></div>
+      <div class="contract-row"><span class="contract-name">Urban Punk (UPO)</span><code>0x3bf0d09463f3ab326eb213f653325896a8c2cba4</code></div>
+      <div class="contract-note">SOHO · ERC-20 · 18 decimals · 50,000,000 max supply · 10 SOHO per NFT per day</div>
+    </div>
   </div>
 
   <div class="wallet-modal" id="wallet-modal" aria-hidden="true">
