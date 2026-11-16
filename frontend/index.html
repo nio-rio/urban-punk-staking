@@ -159,6 +159,20 @@
     }
     .sub { color: #d8d8d8; font-size: 15px; margin: 10px 0 0; letter-spacing: 0.02em; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9); }
     .tagline { color: var(--purple); font-size: 13px; margin-top: 4px; font-style: italic; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9); }
+    .dpf {
+      margin-top: 16px;
+      font-size: clamp(32px, 6.5vw, 64px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 0.98;
+      color: var(--purple);
+      text-shadow:
+        0 0 6px rgba(232, 96, 240, 0.95),
+        0 0 16px rgba(232, 96, 240, 0.65),
+        0 0 34px rgba(232, 96, 240, 0.45),
+        0 0 70px rgba(232, 96, 240, 0.35);
+    }
 
     /* ---- marquee of actual punks ---- */
     .marquee {
@@ -370,6 +384,7 @@
         </div>
         <p class="sub">Stake Urban Punk NFTs → earn SOHO · 10 SOHO per NFT per day</p>
         <p class="tagline">They are late. They are uninvited. They crashed the party.</p>
+        <div class="dpf">Decentralized Punkin Finance</div>
       </div>
       <button id="connect">Connect Wallet</button>
     </header>
