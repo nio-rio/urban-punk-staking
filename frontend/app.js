@@ -183,6 +183,18 @@ async function renderNfts() {
     enumerable = false;
   }
 
+  // Fallback: UPO is a plain ERC-721 (not enumerable) — fetch owned IDs from the indexer.
+  if (!enumerable) {
+    try {
+      const res = await fetch('/.netlify/functions/get-nfts?owner=' + encodeURIComponent(account));
+      const data = await res.json();
+      if (res.ok && Array.isArray(data.owned)) {
+        ownedIds = data.owned;
+        enumerable = true;
+      }
+    } catch {}
+  }
+
   // 2. Staked NFTs — available to unstake.
   try {
     stakedIds = (await staking.stakedTokenIdsOf(account)).map(Number);
