@@ -54,6 +54,22 @@
     @media (max-width: 480px) {
       .punk-character { height: 32vh; max-height: 280px; }
     }
+    .side-punk {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 62vh;
+      max-height: 780px;
+      width: auto;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.96;
+      filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.55));
+    }
+    @media (max-width: 480px) {
+      .side-punk { height: 44vh; max-height: 440px; }
+    }
     .music-wrap {
       position: fixed;
       left: 18px;
@@ -428,6 +444,7 @@
 <body>
   <div class="punk-bg" aria-hidden="true"></div>
   <img src="./punk-character.png" class="punk-character" alt="" aria-hidden="true" />
+  <img src="./side-punk.png" class="side-punk" alt="" aria-hidden="true" />
   <div class="music-wrap">
     <button id="music-toggle" class="music-btn" aria-label="Play music"><img src="./music.png" alt="" /></button>
     <span class="music-label" id="music-label">Off</span>
