@@ -44,6 +44,7 @@ let ownedIds = [];
 let stakedIds = [];
 let nftFilter = 'all';
 let ratePerDayNum = 10;
+let activeProvider = null;
 
 function setMsg(text, cls = '') {
   const el = $('msg');
@@ -109,6 +110,7 @@ async function connectWallet(wallet) {
 }
 
 async function doConnect(provider) {
+  activeProvider = provider;
   // Prompt to connect FIRST — accounts can't be read before this.
   await provider.request({ method: 'eth_requestAccounts' });
 
@@ -332,6 +334,28 @@ async function claim() {
   }
 }
 
+async function addSohoToWallet() {
+  const provider = activeProvider || window.ethereum;
+  if (!provider) return setMsg('Connect your wallet first, then try again.', 'err');
+  try {
+    const ok = await provider.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: SOHO,
+          symbol: 'SOHO',
+          decimals: 18,
+          image: 'https://urbanpunkofficial.com/soho-logo-256.png',
+        },
+      },
+    });
+    setMsg(ok ? 'SOHO added to your wallet ✓' : 'Add SOHO cancelled.', ok ? 'ok' : '');
+  } catch (e) {
+    setMsg('Could not add SOHO — use the manual steps below. (' + (e.shortMessage || e.message || e) + ')', 'err');
+  }
+}
+
 async function stakeAll() {
   if (!staking) return setMsg('Contracts not deployed yet.', 'err');
   if (ownedIds.length === 0) return setMsg('No in-wallet NFTs to stake.', 'err');
@@ -442,6 +466,7 @@ document.querySelectorAll('.wallet-item').forEach((el) => {
 $('stake').addEventListener('click', stake);
 $('unstake').addEventListener('click', unstake);
 $('claim').addEventListener('click', claim);
+$('add-soho').addEventListener('click', addSohoToWallet);
 $('stake-all').addEventListener('click', stakeAll);
 $('unstake-all').addEventListener('click', unstakeAll);
 $('nft-filter').addEventListener('click', (e) => {
