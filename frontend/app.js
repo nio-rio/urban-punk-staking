@@ -338,16 +338,14 @@ async function addSohoToWallet() {
   const provider = activeProvider || window.ethereum;
   if (!provider) return setMsg('Connect your wallet first, then try again.', 'err');
   try {
+    if (!activeProvider) {
+      try { await provider.request({ method: 'eth_requestAccounts' }); } catch {}
+    }
     const ok = await provider.request({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20',
-        options: {
-          address: SOHO,
-          symbol: 'SOHO',
-          decimals: 18,
-          image: 'https://urbanpunkofficial.com/soho-logo-256.png',
-        },
+        options: { address: SOHO, symbol: 'SOHO', decimals: 18 },
       },
     });
     setMsg(ok ? 'SOHO added to your wallet ✓' : 'Add SOHO cancelled.', ok ? 'ok' : '');
