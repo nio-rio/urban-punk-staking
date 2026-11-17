@@ -470,7 +470,7 @@
     .splash-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.28) 45%, rgba(0, 0, 0, 0.05) 75%);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0.18) 72%, rgba(0, 0, 0, 0.82) 100%);
     }
     .splash-content {
       position: absolute;
@@ -507,13 +507,20 @@
       .enter-btn { animation: none; }
     }
     .splash-tag {
+      position: absolute;
+      top: clamp(28px, 6vh, 64px);
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
       font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 5px;
       text-transform: uppercase;
       color: #fff;
-      opacity: 0.9;
+      opacity: 0.92;
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
     }
     .splash-social {
@@ -548,8 +555,8 @@
   <div class="splash" id="splash">
     <img src="./splash.jpg" class="splash-img" alt="Urban Punk" />
     <div class="splash-overlay" aria-hidden="true"></div>
+    <span class="splash-tag">No Suits &middot; No Rules &middot; No Invite</span>
     <div class="splash-content">
-      <span class="splash-tag">No Suits &middot; No Rules &middot; No Invite</span>
       <button id="enter-btn" class="enter-btn" aria-label="Enter">🍆</button>
       <div class="splash-social">
         <a href="https://opensea.io/collection/urban-punk-official" target="_blank" rel="noopener" aria-label="OpenSea" title="OpenSea">
