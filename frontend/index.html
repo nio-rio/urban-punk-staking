@@ -512,6 +512,23 @@
       opacity: 0.9;
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
     }
+    .splash-social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      z-index: 2;
+    }
+    .splash-social a {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      opacity: 0.85;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .splash-social a:hover { opacity: 1; transform: translateY(-2px); }
+    .splash-social img { height: 22px; width: auto; }
+    .splash-social svg { height: 24px; width: 24px; }
     @media (max-width: 480px) {
       .enter-btn {
         padding: 13px 24px;
@@ -532,6 +549,14 @@
     <div class="splash-content">
       <span class="splash-tag">No Suits &middot; No Rules &middot; No Invite</span>
       <button id="enter-btn" class="enter-btn">Click Here To Enter</button>
+      <div class="splash-social">
+        <a href="https://opensea.io/collection/urban-punk-official" target="_blank" rel="noopener" aria-label="OpenSea" title="OpenSea">
+          <img src="./opensea.svg" alt="OpenSea" />
+        </a>
+        <a href="https://x.com/urbanpunknft" target="_blank" rel="noopener" aria-label="X" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+        </a>
+      </div>
     </div>
   </div>
   <script>
