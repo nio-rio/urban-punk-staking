@@ -389,6 +389,9 @@
     .x-link { display: inline-flex; align-items: center; vertical-align: middle; opacity: 0.8; color: #fff; }
     .x-link:hover { opacity: 1; }
     .x-logo { height: 15px; width: auto; display: block; }
+    .coingecko-link { display: inline-flex; align-items: center; vertical-align: middle; opacity: 0.8; }
+    .coingecko-link:hover { opacity: 1; }
+    .coingecko-logo { height: 15px; width: auto; display: block; }
     .opensea-btn {
       display: inline-flex;
       align-items: center;
@@ -529,13 +532,6 @@
     .splash-social a:hover { opacity: 1; transform: translateY(-2px); }
     .splash-social img { height: 22px; width: auto; }
     .splash-social svg { height: 24px; width: 24px; }
-    .splash-social .cg-text {
-      font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
     @media (max-width: 480px) {
       .enter-btn {
         padding: 13px 24px;
@@ -563,7 +559,9 @@
         <a href="https://x.com/urbanpunknft" target="_blank" rel="noopener" aria-label="X" title="X">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
         </a>
-        <a href="https://www.coingecko.com/en/nft/urban-punk-official" target="_blank" rel="noopener" class="cg-text" aria-label="CoinGecko" title="CoinGecko">CoinGecko</a>
+        <a href="https://www.coingecko.com/en/nft/urban-punk-official" target="_blank" rel="noopener" aria-label="CoinGecko" title="CoinGecko">
+          <img src="./coingecko.svg" alt="CoinGecko" />
+        </a>
       </div>
     </div>
   </div>
@@ -754,7 +752,9 @@
         <svg viewBox="0 0 24 24" fill="currentColor" class="x-logo" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
       </a>
       <span class="footer-sep">·</span>
-      <a href="https://www.coingecko.com/en/nft/urban-punk-official" target="_blank" rel="noopener">CoinGecko</a>
+      <a href="https://www.coingecko.com/en/nft/urban-punk-official" target="_blank" rel="noopener" class="coingecko-link" title="Urban Punk Official on CoinGecko">
+        <img src="./coingecko.svg" alt="CoinGecko" class="coingecko-logo" />
+      </a>
       <span class="footer-sep">·</span>
       <a href="https://urbanpunk.xyz/licenseterms" target="_blank" rel="noopener">IP License</a>
     </p>
